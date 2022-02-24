@@ -7,33 +7,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model Modules {
+//One to One
+
+// model Courses {
 //   id          String   @id @default(uuid())
 //   name        String   @unique
-//   description String
+//   description String?
+//   duration    Int
 //   created_at  DateTime @default(now())
 
-//   @@map("modules")
+//   teacher       Teachers @relation(fields: [fk_id_teacher], references: [id])
+//   fk_id_teacher String   @unique
+
+//   @@map("courses")
 // }
 
-model Courses {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  description String?
-  duration    Int
-  created_at  DateTime @default(now())
+// model Teachers {
+//   id   String @id @default(uuid())
+//   name String @unique
 
-  teacher       Teachers @relation(fields: [fk_id_teacher], references: [id])
-  fk_id_teacher String   @unique
+//   courses Courses?
 
-  @@map("courses")
-}
+//   @@map("teachers")
+// }
 
-model Teachers {
+// One To Many
+
+model Authors {
   id   String @id @default(uuid())
   name String @unique
 
-  courses Courses?
+  books Books[]
+  @@map("authors")
+}
 
-  @@map("teachers")
+model Books {
+  id        String  @id @default(uuid())
+  name      String  @unique
+  author_id String
+  author    Authors @relation(fields: [author_id], references: [id])
+
+  @@map("books")
 }
