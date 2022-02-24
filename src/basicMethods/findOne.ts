@@ -3,8 +3,10 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+  // SELECT * FORM COURSES LIMIT 1
+  // SELECT * FROM COURSES ORDER BY ID DESC LIMIT 1
   const course = await prisma.courses.findFirst({
-    take: 2,
+    take: -1,
   });
   console.log(course);
 }
