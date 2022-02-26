@@ -86,3 +86,6 @@ model CoursesModules {
 
   @@map("courses_modules")
 }
+
+// To create models based on a previous database
+//just change the database url and run `yarn prisma db pull`
