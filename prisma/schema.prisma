@@ -33,19 +33,56 @@ datasource db {
 
 // One To Many
 
-model Authors {
-  id   String @id @default(uuid())
-  name String @unique
+// model Authors {
+//   id   String @id @default(uuid())
+//   name String @unique
 
-  books Books[]
-  @@map("authors")
+//   books Books[]
+//   @@map("authors")
+// }
+
+// model Books {
+//   id        String  @id @default(uuid())
+//   name      String  @unique
+//   author_id String
+//   author    Authors @relation(fields: [author_id], references: [id])
+
+//   @@map("books")
+// }
+
+// Many to Many
+
+model Courses {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  duration    Int
+  created_at  DateTime @default(now())
+
+  CoursesModules CoursesModules[]
+  @@map("courses")
 }
 
-model Books {
-  id        String  @id @default(uuid())
-  name      String  @unique
-  author_id String
-  author    Authors @relation(fields: [author_id], references: [id])
+model Modules {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  created_at  DateTime @default(now())
 
-  @@map("books")
+  CoursesModules CoursesModules[]
+  @@map("modules")
+}
+
+model CoursesModules {
+  id String @id @default(uuid())
+
+  course       Courses @relation(fields: [fk_id_course], references: [id])
+  fk_id_course String
+
+  module       Modules @relation(fields: [fk_id_module], references: [id])
+  fk_id_module String
+
+  created_at DateTime @default(now())
+
+  @@map("courses_modules")
 }
